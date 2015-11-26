@@ -1,0 +1,63 @@
+.dataBar{
+
+  height: 8rem;
+  margin: .7rem;
+  box-shadow: .2rem .2rem .4rem #000000;
+}
+.mapPane{
+  background-color: rgb(225, 225, 225);
+  height: 45rem;
+  box-shadow: .1rem .1rem .1rem 0rem #000000;
+  z-index: -1;
+  border-top: .1rem solid black;
+  border-left: .1rem solid black;
+}
+.mapRow{
+  width: 98%;
+}
+.optionsPane{
+  height: auto;
+  box-shadow: .2rem .2rem .4rem .2rem #000000;
+  z-index: 1;
+}
+.listItem{
+  text-align: left;
+
+}
+.listItemWT{
+  text-align: center;
+  border-top: .1rem solid black;
+}
+.listItemW{
+  width:auto;
+  background-color: #f6f1f1;
+  box-shadow: .1rem .1rem .2rem .1rem #000000;
+}
+.listValue{
+  text-align: left;
+}
+.cityHeader{
+  box-shadow: .2rem .1rem .2rem .1rem #000000;
+
+  background-color: rgb(235, 235, 235);
+  margin-bottom: .2rem;
+  padding-top: .4rem;
+  padding-bottom: .4rem;
+}
+.zipIn{
+  padding: .5rem;
+  text-align: left;
+}
+.zipText{
+  padding: .2rem;
+  text-align: left;
+}
+.startZip{
+  width:2rem;
+}
+.dataInfo{
+  text-align: left;
+}
+#dataItems{
+  text-align: right;
+}
