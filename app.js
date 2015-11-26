@@ -307,6 +307,8 @@ window.onload = function(){
   }
 
 
+
+
   function initMap() {
 
     // Specify features and elements to define styles.
@@ -361,12 +363,16 @@ window.onload = function(){
     }
   });
 
+  var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var labelIndex = 0;
+
   for(var i = 0; i < cityArr.length; i++)
   {
     var myLatLng = {lat:cityArr[i].lat, lng:cityArr[i].lng};
     cityArr[i].marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
+    label: labels[labelIndex++ % labels.length],
     title: cityArr[i].name,
     animation: google.maps.Animation.DROP
   });
