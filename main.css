@@ -44,6 +44,10 @@
   padding-top: .4rem;
   padding-bottom: .4rem;
 }
+.mainBtnDiv{
+
+  margin-left: 2.5rem;
+}
 .zipIn{
   padding: .5rem;
   text-align: left;

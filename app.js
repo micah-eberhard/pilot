@@ -65,10 +65,23 @@ window.onload = function(){
           city.lat = parseFloat(data['results'][0]['geometry']['location']['lat']);
           city.lng = parseFloat(data['results'][0]['geometry']['location']['lng']);
           console.log(city.name);
+          if(city == city2)
+          {
+            last = true;
+          }
           if(last)
           {
+            last = false;
             buildMidCities();
-            buildCities();
+            for(var i = 0; i < cityArr.length; i++)
+            {
+              if(i == cityArr.length -1)
+              {
+                last = true;
+              }
+              getWeather(cityArr[i]);
+            }
+            //buildCities();
             startCity.innerText = city1.name;
             endCity.innerText = city2.name;
             setDistance(city1.zip, city2.zip);
@@ -168,13 +181,14 @@ window.onload = function(){
   function buildCities()
   {
     var htmlStr = '';
-
+/*
     for(var i = 0; i < cityArr.length; i++)
     {
       getWeather(cityArr[i]);
     }
+    */
 
-    setTimeout(function(){
+    //setTimeout(function(){
     for(var i = 0; i < cityArr.length; i++)
     {
       htmlStr += '<div class = "row cityCollector">' +
@@ -190,7 +204,7 @@ window.onload = function(){
     }
 
       optionsPane.innerHTML = htmlStr;
-    }, 3000);
+  //  }, 3000);
     return htmlStr;
 
   }
@@ -204,8 +218,9 @@ window.onload = function(){
       city2.zip = end;
       console.log("Zips:" + start + " " + end);
       //setDistance(start,end);
+      last = false;
       setInfo(start, city1);
-      last = true;
+      //last = true;
       setInfo(end, city2);
 
     }
@@ -282,6 +297,10 @@ window.onload = function(){
           {
             city.name = data['name'];
             //console.log(data);
+          }
+          if(last)
+          {
+            buildCities();
           }
 
         });
