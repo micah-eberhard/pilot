@@ -5,13 +5,13 @@ window.onload = function(){
   var startZip = document.getElementById('startZip'); //Start Zip
   var endZip = document.getElementById('endZip'); //End Zip
   var dataDistance = document.getElementById('dataDistance'); //Info in top data bar
-  var optionsPane = document.getElementById('optionsPane'); //Info in top data bar
-  var startCity = document.getElementById('startCity'); //Info in top data bar
-  var endCity = document.getElementById('endCity'); //Info in top data bar
+  var optionsPane = document.getElementById('optionsPane'); //Citys Listing Right Bar
+  var startCity = document.getElementById('startCity'); //Top Bar Start City
+  var endCity = document.getElementById('endCity'); //Top Bar End City
   //var cityCollector = document.getElementsByClassName('cityCollector'); //City Collections Right Bar
   var last = false;
-
   var distance = 0;
+
   var city1 = {
     name:'',
     lat:0,
@@ -19,6 +19,7 @@ window.onload = function(){
     zip:'',
     temp:''
   };
+
   var city2 = {
     name:'',
     lat:0,
@@ -81,28 +82,13 @@ window.onload = function(){
               }
               getWeather(cityArr[i]);
             }
-            //buildCities();
             startCity.innerText = city1.name;
             endCity.innerText = city2.name;
             setDistance(city1.zip, city2.zip);
             initMap();
 
           }
-          //optionsPane.innerHTML = buildCities();
         });
-        /*
-    $.getJSON( api, function( data ) {
-
-      city.name = data['results'][0]['address_components'][1]['long_name'];
-      city.lat = parseFloat(data['results'][0]['geometry']['location']['lat']);
-      city.lng = parseFloat(data['results'][0]['geometry']['location']['lng']);
-      console.log(city.name);
-      //console.log(data['results'][0]['geometry']['location']['lat']);
-      //console.log(data['results'][0]['geometry']['location']['lng']);
-      }).done(function() {
-        loadInfo();
-      });
-      */
   }
 
   function loadInfo()
@@ -127,14 +113,7 @@ window.onload = function(){
     var lngDif = 0;
     var east = false;
 
-    if(city1.lng > city2.lng)
-    {
-      lngDif = city1.lng - city2.lng;
-    }
-    else {
-      east = true;
-      lngDif = city2.lng - city1.lng;
-    }
+    lngDif = city1.lng - city2.lng;
 
     if(city1.lat > city2.lat)
     {
@@ -142,10 +121,7 @@ window.onload = function(){
       for(var i = 0; i < latDif; i++)
       {
         cityMid.lat.push(city1.lat - i);
-        if (east){
-          cityMid.lng.push(city1.lng + (lngDif/latDif)*(i));}
-        else{
-          cityMid.lng.push(city1.lng - (lngDif/latDif)*(i));}
+        cityMid.lng.push(city1.lng - (lngDif/latDif)*(i));
       }
     }
     else
@@ -154,15 +130,14 @@ window.onload = function(){
       for(var i = 0; i < latDif; i++)
       {
         cityMid.lat.push(city1.lat + i);
-        if (east){
-          cityMid.lng.push(city1.lng + (lngDif/latDif)*(i));}
-        else{
-          cityMid.lng.push(city1.lng - (lngDif/latDif)*(i));}
+        cityMid.lng.push(city1.lng - (lngDif/latDif)*(i));
       }
     }
+
+
     cityArr = [];
     cityArr.push(city1);
-    for(var i = 0; i < cityMid.lat.length; i++)
+    for(var i = 1; i < cityMid.lat.length; i++)
     {
       var cityObj = {
         lat:cityMid.lat[i],
@@ -181,14 +156,6 @@ window.onload = function(){
   function buildCities()
   {
     var htmlStr = '';
-/*
-    for(var i = 0; i < cityArr.length; i++)
-    {
-      getWeather(cityArr[i]);
-    }
-    */
-
-    //setTimeout(function(){
     for(var i = 0; i < cityArr.length; i++)
     {
       htmlStr += '<div class = "row cityCollector">' +
@@ -202,11 +169,10 @@ window.onload = function(){
         '</div>'
       ;
     }
-
       optionsPane.innerHTML = htmlStr;
-  //  }, 3000);
-    return htmlStr;
+      optionsPane.style.display = 'block';
 
+    return htmlStr;
   }
 
     mainSubBtn.addEventListener('click', function(event){
@@ -217,12 +183,9 @@ window.onload = function(){
       city1.zip = start;
       city2.zip = end;
       console.log("Zips:" + start + " " + end);
-      //setDistance(start,end);
       last = false;
       setInfo(start, city1);
-      //last = true;
       setInfo(end, city2);
-
     }
   });
 
@@ -232,15 +195,12 @@ window.onload = function(){
   console.log(tar.innerText);
   for(var item in cityArr)
   {
-    //console.log(cityArr[item].name);
     if (cityArr[item].name == tar.innerText)
     {
       city = cityArr[item];
     }
   }
-  /////
-  /////
-  /////
+
   var child = document.getElementById(city.idx+'_pop');
   if(city !== '' && openArr.indexOf(city) == -1)
   {

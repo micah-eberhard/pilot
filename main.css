@@ -16,6 +16,8 @@
   width: 98%;
 }
 .optionsPane{
+
+  display: none;
   height: auto;
   box-shadow: .2rem .2rem .4rem .2rem #000000;
   z-index: 1;
