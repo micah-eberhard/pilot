@@ -62,10 +62,6 @@ window.onload = function(){
             {
               getWeather(cityArr[i]);
             }
-            startCity.innerText = city1.name;
-            endCity.innerText = city2.name;
-            initMap();
-
           }
         });
   }
@@ -232,6 +228,9 @@ window.onload = function(){
           {
             buildCities();
             buildAverage();
+            startCity.innerText = city1.name;
+            endCity.innerText = city2.name;
+            initMap();
           }
         });
   }
