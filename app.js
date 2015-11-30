@@ -9,7 +9,7 @@ window.onload = function(){
   var endCity = document.getElementById('endCity'); //Top Bar End City
   var avgWeather = document.getElementById('avgWeather'); //Average Weather Type
   var avgTemp = document.getElementById('avgTemp'); //Average Temp
-  //var cityCollector = document.getElementsByClassName('cityCollector'); //City Collections Right Bar
+
   var last = false;
   var distance = 0;
 
@@ -129,9 +129,11 @@ window.onload = function(){
           '<div class="col-md-10"id="'+cityArr[i].idx+'_pop">'+'</div>' +
           '<div class="col-md-1"'+'</div>'+
         '</div>'+
+        '</div>' +
         '</div>'
       ;
     }
+      htmlStr = htmlStr + '<div class = "row optionsBlur"'+ '</div>';
       optionsPane.innerHTML = htmlStr;
       optionsPane.style.display = 'block';
 
@@ -228,9 +230,10 @@ window.onload = function(){
           {
             buildCities();
             buildAverage();
-            startCity.innerText = city1.name;
-            endCity.innerText = city2.name;
+            startCity.innerText = "Start: " + city1.name;
+            endCity.innerText = "End: " +city2.name;
             initMap();
+            mapPane.style.display = 'block';
           }
         });
   }
@@ -351,7 +354,7 @@ window.onload = function(){
     geodesic: true,
     strokeColor: '#8700ff',
     strokeOpacity: 1.0,
-    strokeWeight: 2
+    strokeWeight: 3
   });
   flightPath.setMap(map);
   }

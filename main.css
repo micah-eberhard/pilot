@@ -1,26 +1,52 @@
+body{
+  background-color: #e8e8e8;
+}
 .dataBar{
 
-  height: 8rem;
+  height: 9rem;
   margin: .7rem;
   box-shadow: .2rem .2rem .4rem #000000;
+  background-color: #FFFFFF;
+  border-radius: 1rem;
 }
 .mapPane{
+  margin-top: -1rem;
+  margin-left: 2.4rem;
   background-color: rgb(225, 225, 225);
   height: 45rem;
   box-shadow: .1rem .1rem .1rem 0rem #000000;
   z-index: -1;
   border-top: .1rem solid black;
   border-left: .1rem solid black;
+  display: none;
+  border-radius: 1rem;
 }
 .mapRow{
   width: 98%;
 }
+.optionsPane:hover{
+  opacity: 1.0;
+}
 .optionsPane{
-
+  margin-left: -5rem;
+  opacity: 0.8;
   display: none;
   height: auto;
   box-shadow: .2rem .2rem .4rem .2rem #000000;
+  border: .1rem solid black;
   z-index: 1;
+  background-color: #FFFFFF;
+  border-radius: 1rem;
+}
+.optionsBlur{
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  height: 1rem;
+  position: sticky;
+  bottom: 0;
+}
+.cityHeader:hover{
+  background-color: #FFFFFF;
 }
 .listItem{
   text-align: left;
@@ -62,8 +88,10 @@
   width:2rem;
 }
 .dataInfo{
-  text-align: left;
+  text-align: center;
+  margin-left: 4rem;
 }
 #dataItems{
-  text-align: right;
+  margin-left: 4rem;
+  text-align: center;
 }
