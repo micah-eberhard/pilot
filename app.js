@@ -8,6 +8,7 @@ window.onload = function(){
   var optionsPane = document.getElementById('optionsPane'); //Citys Listing Right Bar
   var startCity = document.getElementById('startCity'); //Top Bar Start City
   var endCity = document.getElementById('endCity'); //Top Bar End City
+  var avgWeather = document.getElementById('avgWeather'); //Top Bar End City
   //var cityCollector = document.getElementsByClassName('cityCollector'); //City Collections Right Bar
   var last = false;
   var distance = 0;
@@ -76,10 +77,6 @@ window.onload = function(){
             buildMidCities();
             for(var i = 0; i < cityArr.length; i++)
             {
-              if(i == cityArr.length -1)
-              {
-                last = true;
-              }
               getWeather(cityArr[i]);
             }
             startCity.innerText = city1.name;
@@ -89,18 +86,6 @@ window.onload = function(){
 
           }
         });
-  }
-
-  function loadInfo()
-  {
-    //dataDistance.innerText = distance;
-    //startCity.innerText = city1.name;
-    //endCity.innerText = city2.name;
-    //optionsPane.innerHTML = buildCities();
-    //getMidpoint(city1,city2);
-    //buildMidCities();
-    //optionsPane.innerHTML = buildCities();
-    //initMap();
   }
 
   function buildMidCities ()
@@ -256,37 +241,53 @@ window.onload = function(){
           if(city.name == '' || city.name === undefined)
           {
             city.name = data['name'];
-            //console.log(data);
           }
-          if(last)
+          if(city == city2)
+          {
+            last = true;
+          }
+          if(last === true)
           {
             buildCities();
+            buildAverage();
           }
-
         });
-    /*
-    $.getJSON( api, function( data ) {
-
-      city.temp = data['main']['temp'];
-      city.pressure = data['main']['pressure'];
-      city.humidity = data['main']['humidity'];
-      city.weatherDes = data['weather'][0]['description'];
-      city.weatherIco = data['weather'][0]['icon'];
-      if(city.name == '' || city.name === undefined)
-      {
-        city.name = data['name'];
-        //console.log(data);
-      }
-      console.log(city.weatherDes);
-      }).done(function() {
-        //loadInfo();
-        //console.log(data);
-      });
-      */
   }
 
+  function buildAverage(){
+    var hold = {};
 
 
+    for (var i = 0; i < cityArr.length; i++)
+    {
+      if (hold[String(cityArr[i].weatherDes)] === undefined)
+      {
+        console.log("adding" + String(cityArr[i].weatherDes));
+        hold[String(cityArr[i].weatherDes)] = parseFloat(1);
+      }
+      else
+      {
+        console.log("Found Another: "+ String(cityArr[i].weatherDes));
+        hold[String(cityArr[i].weatherDes)] = parseFloat(hold[String(cityArr[i].weatherDes)]) + 1;
+      }
+    }
+    var max = 0;
+    var maxIdx = '';
+    var total = 0;
+    for(var item in hold)
+    {
+      if(hold[item] > max)
+      {
+        max = hold[item];
+        maxIdx = item;
+      }
+      total = total + hold[item];
+    }
+    var str = "Currently during " + ((max/total)*100).toFixed(3) + "% of your trip, you can expect: " + maxIdx;
+    console.log(hold);
+    console.log("Max: " + maxIdx + " :: " + max + " AVG: " + (max/total)*100 + "%");
+    avgWeather.innerText = str;
+  }
 
   function initMap() {
 
@@ -295,7 +296,7 @@ window.onload = function(){
       {
         featureType: "all",
         stylers: [
-         { saturation: -50 }
+         { saturation: -10 }
         ]
       },{
         featureType: "road.arterial",
@@ -317,9 +318,10 @@ window.onload = function(){
     var map = new google.maps.Map(mapPane, {
       center: {lat: city1.lat, lng: city1.lng},
       scrollwheel: true,
+      mapTypeId: google.maps.MapTypeId.TERRAIN,
       // Apply the map style array to the map.
       styles: styleArray,
-      zoom: 8
+      zoom: 5
     });
 
     var directionsDisplay = new google.maps.DirectionsRenderer({
@@ -344,10 +346,12 @@ window.onload = function(){
 
   var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var labelIndex = 0;
+  var flightPlanCoordinates = [];
 
   for(var i = 0; i < cityArr.length; i++)
   {
     var myLatLng = {lat:cityArr[i].lat, lng:cityArr[i].lng};
+    flightPlanCoordinates.push(myLatLng);
     cityArr[i].marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
@@ -357,6 +361,14 @@ window.onload = function(){
   });
   }
 
+  var flightPath = new google.maps.Polyline({
+    path: flightPlanCoordinates,
+    geodesic: true,
+    strokeColor: '#8700ff',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+  flightPath.setMap(map);
   }
 
 
