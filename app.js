@@ -4,11 +4,11 @@ window.onload = function(){
   var mainSubBtn = document.getElementById('mainSubBtn'); //Main Submit Button
   var startZip = document.getElementById('startZip'); //Start Zip
   var endZip = document.getElementById('endZip'); //End Zip
-  var dataDistance = document.getElementById('dataDistance'); //Info in top data bar
   var optionsPane = document.getElementById('optionsPane'); //Citys Listing Right Bar
   var startCity = document.getElementById('startCity'); //Top Bar Start City
   var endCity = document.getElementById('endCity'); //Top Bar End City
-  var avgWeather = document.getElementById('avgWeather'); //Top Bar End City
+  var avgWeather = document.getElementById('avgWeather'); //Average Weather Type
+  var avgTemp = document.getElementById('avgTemp'); //Average Temp
   //var cityCollector = document.getElementsByClassName('cityCollector'); //City Collections Right Bar
   var last = false;
   var distance = 0;
@@ -38,23 +38,6 @@ window.onload = function(){
   };
   var openArr = [];
 
-  function setDistance(zip1, zip2)
-  {
-    var items = [];
-    //var distanceAPI = "https://www.zipcodeapi.com/rest/LapKZOoH0rcwVyfgQqrp0qvSBrlBbueXFEHEt6mtxz0t8fJYFboGBTydlUPxp3u4/distance.json/"+zip1+"/"+zip2+"/mile";
-    var distanceAPI = "https://jsonp.afeld.me/?url=https%3A%2F%2Fwww.zipcodeapi.com%2Frest%2FLapKZOoH0rcwVyfgQqrp0qvSBrlBbueXFEHEt6mtxz0t8fJYFboGBTydlUPxp3u4%2Fdistance.json%2F"+zip1+"%2F"+zip2+"%2Fmile";
-    $.ajax({
-        url: distanceAPI
-        })
-    .done(function( data ) {
-      console.log(data);
-      distance = data['distance'];
-      //dataInfo.innerHTML = distance;
-      console.log(distance);
-      dataDistance.innerText = distance;
-    });
-  }
-
   function setInfo(zip1, city)
   {
     //var api = "https://jsonp.afeld.me/?url=https%3A%2F%2Fwww.zipcodeapi.com%2Frest%2FLapKZOoH0rcwVyfgQqrp0qvSBrlBbueXFEHEt6mtxz0t8fJYFboGBTydlUPxp3u4%2Finfo.json%2F"+zip1+"%2Fdegrees";
@@ -81,7 +64,6 @@ window.onload = function(){
             }
             startCity.innerText = city1.name;
             endCity.innerText = city2.name;
-            setDistance(city1.zip, city2.zip);
             initMap();
 
           }
@@ -256,6 +238,7 @@ window.onload = function(){
 
   function buildAverage(){
     var hold = {};
+    var tempTotal = 0;
 
 
     for (var i = 0; i < cityArr.length; i++)
@@ -270,6 +253,7 @@ window.onload = function(){
         console.log("Found Another: "+ String(cityArr[i].weatherDes));
         hold[String(cityArr[i].weatherDes)] = parseFloat(hold[String(cityArr[i].weatherDes)]) + 1;
       }
+      tempTotal = tempTotal + parseFloat(cityArr[i].temp);
     }
     var max = 0;
     var maxIdx = '';
@@ -283,10 +267,12 @@ window.onload = function(){
       }
       total = total + hold[item];
     }
-    var str = "Currently during " + ((max/total)*100).toFixed(3) + "% of your trip, you can expect: " + maxIdx;
+    var str = "Currently over " + ((max/total)*100).toFixed(3) + "% of your trip, you can expect: " + maxIdx;
     console.log(hold);
     console.log("Max: " + maxIdx + " :: " + max + " AVG: " + (max/total)*100 + "%");
     avgWeather.innerText = str;
+    console.log(tempTotal);
+    avgTemp.innerText = "Average Temp: " + (parseFloat(tempTotal) / cityArr.length).toFixed(3);
   }
 
   function initMap() {
