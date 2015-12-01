@@ -3,10 +3,10 @@ body{
 }
 .dataBar{
 
-  height: 9rem;
+  height: auto;
   margin: .7rem;
   box-shadow: .2rem .2rem .4rem #000000;
-  background-color: rgb(225, 225, 225);
+  background-color: rgb(255, 255, 255);
   border-radius: 1rem;
 }
 .mapPane{
@@ -22,12 +22,13 @@ body{
   border-radius: 1rem;
 }
 .mapRow{
-  width: 98%;
+  width: 100%;
 }
 .optionsPane:hover{
   opacity: 1.0;
 }
 .optionsPane{
+  float: right;
   margin-left: -5rem;
   display: none;
   height: auto;
