@@ -1,3 +1,11 @@
+/**************************
+KNOWN BUGS:
+
+Firefox doesn't display Average stats (temp / weather on top bar)
+Firefox doesn't display on click dropdown from city headers in right bar.
+**************************/
+
+
 window.onload = function(){
 
   var mapPane = document.getElementById('mapPane'); //Main Map
@@ -12,6 +20,7 @@ window.onload = function(){
 
   var last = false;
   var distance = 0;
+  var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   var city1 = {
     name:'',
@@ -37,6 +46,12 @@ window.onload = function(){
     lng:[]
   };
   var openArr = [];
+
+  /**************************
+  senInfo:
+
+  Collects initial data on start / endpoints from Google API
+  **************************/
 
   function setInfo(zip1, city)
   {
@@ -66,6 +81,11 @@ window.onload = function(){
         });
   }
 
+  /**************************
+  buildMidCities:
+
+  Calculates Lat/Long difference between endpoints for multipule points on a straight line.
+  **************************/
   function buildMidCities ()
   {
     cityMid = {
@@ -97,7 +117,6 @@ window.onload = function(){
       }
     }
 
-
     cityArr = [];
     cityArr.push(city1);
     for(var i = 1; i < cityMid.lat.length; i++)
@@ -116,13 +135,20 @@ window.onload = function(){
     console.log(cityArr);
   }
 
+  /**************************
+  buildCities:
+
+  Builds the cityHeader list on the right bar.
+  **************************/
   function buildCities()
   {
     var htmlStr = '';
     for(var i = 0; i < cityArr.length; i++)
     {
+      var lbl = labels[i % labels.length];
       htmlStr += '<div class = "row cityCollector">' +
-        '<div class="col-md-12 cityHeader">' + cityArr[i].name + '</div>' +
+        //'<div class="col-md-1 cityHeader">'+ lbl + '</div>' +
+        '<div class="col-md-12 cityHeader">'+ cityArr[i].name + '</div>' +
         '</div>' +
         '<div class = "row"'+
           '<div class="col-md-1"'+'</div>'+
@@ -140,10 +166,15 @@ window.onload = function(){
     return htmlStr;
   }
 
-    mainSubBtn.addEventListener('click', function(event){
-    var tar = event.target;
-    var start = startZip.value;
-    var end = endZip.value;
+  /**************************
+  click Listener:
+
+  Waits for the submit button to be clicked to start API calls based on input Zipcodes.
+  **************************/
+  mainSubBtn.addEventListener('click', function(event){
+  var tar = event.target;
+  var start = startZip.value;
+  var end = endZip.value;
     if (start != '' && end != ''){
       city1.zip = start;
       city2.zip = end;
@@ -153,7 +184,11 @@ window.onload = function(){
       setInfo(end, city2);
     }
   });
+  /**************************
+  click Listener:
 
+  Waits for someone to click on a cityHeader to display more info.
+  **************************/
   optionsPane.addEventListener('click', function(event){
   var tar = event.target;
   var city = '';
@@ -165,11 +200,9 @@ window.onload = function(){
       city = cityArr[item];
     }
   }
-
   var child = document.getElementById(city.idx+'_pop');
   if(city !== '' && openArr.indexOf(city) == -1)
   {
-
     child.innerHTML =
     '<div class = "row">'+
     '<div class="col-md-3 listItem">Lat:</div>'+'<div class="col-md-5 listValue">'+city.lat.toFixed(3)+'</div>'+
@@ -178,17 +211,14 @@ window.onload = function(){
     '<div class="col-md-3 listItem">Long:</div>'+'<div class="col-md-5 listValue">'+city.lng.toFixed(3)+'</div>'+
     '</div>'+
     '<div class = "row">' +
-    '<div class="col-md-3 listItem">Zip:</div>'+'<div class="col-md-5 listValue">'+city.zip+'</div>'+
-    '</div>' +
-    '<div class = "row">' +
     '</div>' +
     '<div class = "row listItemW listItemWT">' +
       '<div class="col-md-12 listValue">'+city.weatherDes+'</div>'+
     '</div>' +
     '<div class = "row listItemW">' +
       '<div class="col-md-4 listValue"><img src="http://openweathermap.org/img/w/'+city.weatherIco+'.png" alt="" /></div>'+
-      '<div class="col-md-3 listItem">Temp:</div>'+
-      '<div class="col-md-5 listValue">'+city.temp+'</div>'+
+      //'<div class="col-md-3 listItem">Temp:</div>'+
+      '<div class="col-md-8 listValue">'+city.temp+' F</div>'+
     '</div>'
     ;
     openArr.push(city);
@@ -202,6 +232,12 @@ window.onload = function(){
   console.log(city);
 
 });
+
+/**************************
+getWeather(city):
+
+Queries the openweathermap API for weather, and city names on midpoint cities/locations.
+**************************/
   function getWeather(city)
   {
     var lat = city.lat.toFixed(3);
@@ -213,7 +249,7 @@ window.onload = function(){
         })
         .done(function( data ) {
 
-          city.temp = ((data['main']['temp'] - 273.15)* 1.8000 + 32.00).toFixed(3);
+          city.temp = ((data['main']['temp'] - 273.15)* 1.8000 + 32.00).toFixed(1);
           city.pressure = data['main']['pressure'];
           city.humidity = data['main']['humidity'];
           city.weatherDes = data['weather'][0]['description'];
@@ -238,6 +274,11 @@ window.onload = function(){
         });
   }
 
+  /**************************
+  buildAverage():
+
+  Finds the average weather and temp data and displays it.
+  **************************/
   function buildAverage(){
     var hold = {};
     var tempTotal = 0;
@@ -274,9 +315,14 @@ window.onload = function(){
     console.log("Max: " + maxIdx + " :: " + max + " AVG: " + (max/total)*100 + "%");
     avgWeather.innerText = str;
     console.log(tempTotal);
-    avgTemp.innerText = "Average Temp: " + (parseFloat(tempTotal) / cityArr.length).toFixed(3);
+    avgTemp.innerText = "Average Temp: " + (parseFloat(tempTotal) / cityArr.length).toFixed(1);
   }
 
+  /**************************
+  initMap():
+
+  Creates and builds the google map display.
+  **************************/
   function initMap() {
 
     // Specify features and elements to define styles.
@@ -332,7 +378,7 @@ window.onload = function(){
     }
   });
 
-  var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  //var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var labelIndex = 0;
   var flightPlanCoordinates = [];
 
@@ -358,7 +404,5 @@ window.onload = function(){
   });
   flightPath.setMap(map);
   }
-
-
 
 };

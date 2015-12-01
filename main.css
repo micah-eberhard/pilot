@@ -29,13 +29,12 @@ body{
 }
 .optionsPane{
   margin-left: -5rem;
-  opacity: 0.8;
   display: none;
   height: auto;
   box-shadow: .2rem .2rem .4rem .2rem #000000;
   border: .1rem solid black;
   z-index: 1;
-  background-color: #FFFFFF;
+  background-color: rgb(255, 255, 255);
   border-radius: 1rem;
 }
 .optionsBlur{
