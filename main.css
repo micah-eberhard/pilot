@@ -66,8 +66,15 @@ body{
 }
 .cityHeader{
   box-shadow: .2rem .1rem .2rem .1rem #000000;
-
   background-color: rgb(235, 235, 235);
+  margin-bottom: .2rem;
+  padding-top: .4rem;
+  padding-bottom: .4rem;
+}
+.cityHeaderL{
+  box-shadow: .2rem .1rem .2rem .1rem #000000;
+  margin-left: -.2rem;
+  background-color: rgb(215, 215, 215);
   margin-bottom: .2rem;
   padding-top: .4rem;
   padding-bottom: .4rem;

@@ -147,8 +147,8 @@ window.onload = function(){
     {
       var lbl = labels[i % labels.length];
       htmlStr += '<div class = "row cityCollector">' +
-        //'<div class="col-md-1 cityHeader">'+ lbl + '</div>' +
-        '<div class="col-md-12 cityHeader">'+ cityArr[i].name + '</div>' +
+        '<div class="col-md-1 cityHeaderL">'+ lbl + '</div>' +
+        '<div class="col-md-10 cityHeader">'+ cityArr[i].name + '</div>' +
         '</div>' +
         '<div class = "row"'+
           '<div class="col-md-1"'+'</div>'+
