@@ -6,7 +6,7 @@ body{
   height: 9rem;
   margin: .7rem;
   box-shadow: .2rem .2rem .4rem #000000;
-  background-color: #FFFFFF;
+  background-color: rgb(225, 225, 225);
   border-radius: 1rem;
 }
 .mapPane{

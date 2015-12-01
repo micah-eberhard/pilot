@@ -48,7 +48,7 @@ window.onload = function(){
   var openArr = [];
 
   /**************************
-  senInfo:
+  senInfo(zip1, city):
 
   Collects initial data on start / endpoints from Google API
   **************************/
@@ -82,7 +82,7 @@ window.onload = function(){
   }
 
   /**************************
-  buildMidCities:
+  buildMidCities():
 
   Calculates Lat/Long difference between endpoints for multipule points on a straight line.
   **************************/
@@ -136,7 +136,7 @@ window.onload = function(){
   }
 
   /**************************
-  buildCities:
+  buildCities():
 
   Builds the cityHeader list on the right bar.
   **************************/
